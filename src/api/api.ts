@@ -1,5 +1,5 @@
 import {useDb} from "@/api/db.ts";
-import type {IDesignerDto} from "@/api/dto.ts";
+import type {IDesignerDto, IModelDto} from "@/api/dto.ts";
 
 
 
@@ -20,5 +20,41 @@ export class DesignerController{
 
     static  getDesigners(){
         return slower(()=>useDb.getState().designers)
+    }
+}
+
+
+
+export class ModelController{
+    static addModel(model: IModelDto){
+        return  slower(()=>useDb.getState().addModel({...model,position:[0,0,0]}))
+    }
+
+    static getModel(){
+        return slower(()=>useDb.getState().models)
+    }
+
+    static saveModelPositions(positions:Record<string, [number,number,number]>){
+        return slower(()=>useDb.getState().setPositions(positions))
+
+    }
+
+    static getModelById(id:string){
+        return slower(()=>{
+            const model = useDb.getState().models.find(v=>v.id === id)
+            if(!model)throw new Error(`${id} not found`)
+            return model
+        })
+    }
+
+    static updateModel(id:string,model: IModelDto){
+        return  slower(()=>{
+            const models = useDb.getState().models.map(m=>{
+                if (m.id==id)return {...m,...model}
+                return m
+            })
+
+            return useDb.getState().setModels(models)
+        })
     }
 }
