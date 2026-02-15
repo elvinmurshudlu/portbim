@@ -19,7 +19,11 @@ export class DesignerController{
     }
 
     static  getDesigners(){
-        return slower(()=>useDb.getState().designers)
+        return slower(()=>{
+            return useDb.getState().designers.map(designer=>{
+                return {...designer,modelCount:useDb.getState().models.filter(m=>m.designerId===designer.id).length}
+            })
+        })
     }
 
     static getById(id:string){

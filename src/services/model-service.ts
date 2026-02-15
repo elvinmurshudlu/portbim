@@ -58,13 +58,14 @@ export function useUpdateModelById(id:string){
     })
 }
 
-export function useDeleteModel(){
+export function useDeleteModel(onSuccess?:()=>void){
     const client = useQueryClient()
 
     return useMutation({
         mutationFn:(id:string)=>ModelController.deleteModel(id),
         onSuccess:()=> {
-            return client.invalidateQueries({queryKey: [model_key]})
+            onSuccess?.()
+              client.invalidateQueries({queryKey: [model_key]})
         }
     })
 }

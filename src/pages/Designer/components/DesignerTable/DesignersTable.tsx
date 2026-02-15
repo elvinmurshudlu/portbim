@@ -25,8 +25,13 @@ function DesignersTable() {
             {
                 title:'Working hours',
                 render:(val:IDesigner)=>{
-                    return <div> {val.workingHourStart} --- {val.workingHourEnd}</div>
+                    return <div> from {val.workingHourStart} to {val.workingHourEnd}</div>
                 }
+            },
+            {
+                title: "Models count",
+                dataIndex:'modelCount',
+
             }
         ]}
 

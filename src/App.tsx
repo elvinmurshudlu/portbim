@@ -10,7 +10,9 @@ function App() {
     return <QueryClientProvider client={queryClient}>
         <ConfigProvider>
             <Navbar/>
-            <Outlet/>
+           <div className={'px-4'}>
+               <Outlet/>
+           </div>
         </ConfigProvider>
     </QueryClientProvider>
 }
