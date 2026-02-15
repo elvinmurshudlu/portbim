@@ -1,6 +1,6 @@
 import {create,} from "zustand";
 import {v4} from "uuid";
-import type {DbType, IModel} from "@/api/schema.ts";
+import type {DbType, IDesigner, IModel} from "@/api/schema.ts";
 import {persist} from "zustand/middleware";
 
 
@@ -14,6 +14,7 @@ export const useDb = create<DbType>()(persist((set, get) => ({
             return {...prev, models: [...prev.models, {...model, id: v4()}]};
         }),
         setModels: (models:IModel[]) => set(prev => ({...prev, models: models})),
+        setDesigners: (designers:IDesigner[]) => set(prev => ({...prev,  designers:designers})),
         setPositions: (positions) => set(prev => {
             return {
                 ...prev, models: get().models.map((model) => {

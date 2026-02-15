@@ -1,5 +1,5 @@
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {ModelController} from "@/api/api.ts";
+import {  ModelController} from "@/api/api.ts";
 import type {BoxType} from "@/pages/Models/components/BoxForm/BoxForm.tsx";
 import type {ChangeListType} from "@/provider/MeshMover.tsx";
 
@@ -54,6 +54,17 @@ export function useUpdateModelById(id:string){
         mutationFn:(model:BoxType)=>ModelController.updateModel(id,model),
         onSuccess:()=>{
             client.invalidateQueries({queryKey:[model_key]})
+        }
+    })
+}
+
+export function useDeleteModel(){
+    const client = useQueryClient()
+
+    return useMutation({
+        mutationFn:(id:string)=>ModelController.deleteModel(id),
+        onSuccess:()=> {
+            return client.invalidateQueries({queryKey: [model_key]})
         }
     })
 }

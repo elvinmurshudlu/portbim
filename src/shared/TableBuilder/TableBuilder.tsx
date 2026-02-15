@@ -43,7 +43,7 @@ function TableBuilder<T extends AnyObject>({
         if (props.tableManagement) {
             curr.push({
                 key: "table_management",
-                title: "Əməliyyatlar",
+                title: "Actions",
                 width: 100,
                 dataIndex: "id",
                 align: "end",

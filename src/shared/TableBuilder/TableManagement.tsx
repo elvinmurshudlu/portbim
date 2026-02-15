@@ -88,8 +88,8 @@ function TableManagement<T>({
             {onDelete && (
                 <>
                     <Popconfirm
-                        title="Silinsin?"
-                        description="Bu əməliyyat geri qaytarılmır."
+                        title="Delete?"
+                        // description="Bu əməliyyat geri qaytarılmır."
                         onConfirm={() =>
                             onDelete(value, record)
                         }

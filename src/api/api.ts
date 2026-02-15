@@ -21,6 +21,32 @@ export class DesignerController{
     static  getDesigners(){
         return slower(()=>useDb.getState().designers)
     }
+
+    static getById(id:string){
+        return slower(()=>{
+            const model = useDb.getState().designers.find(v=>v.id === id)
+            if(!model)throw new Error(`${id} not found`)
+            return model
+        })
+    }
+
+    static updateDesigner(id:string,designer: IDesignerDto){
+        return  slower(()=>{
+            const designers = useDb.getState().designers.map(m=>{
+                if (m.id==id)return {...m,...designer}
+                return m
+            })
+
+            return useDb.getState().setDesigners(designers)
+        })
+    }
+
+    static deleteDesigner(id:string){
+        return  slower(()=>{
+            const designers = useDb.getState().designers.filter(v=>v.id !== id)
+            return useDb.getState().setDesigners(designers)
+        })
+    }
 }
 
 
@@ -54,6 +80,13 @@ export class ModelController{
                 return m
             })
 
+            return useDb.getState().setModels(models)
+        })
+    }
+
+    static deleteModel(id:string){
+        return  slower(()=>{
+            const models = useDb.getState().models.filter(v=>v.id !== id)
             return useDb.getState().setModels(models)
         })
     }

@@ -3,7 +3,7 @@ import {OrbitControls} from '@react-three/drei'
 import Box, {sizeScale} from "@/pages/Models/components/Box.tsx";
 import CreateBoxModal from "@/pages/Models/components/BoxForm/CreateBoxModal.tsx";
 import {useState} from "react";
-import {useGetModelsQuery, useUpdateModelPositions} from "@/services/model-service.ts";
+import {useDeleteModel, useGetModelsQuery, useUpdateModelPositions} from "@/services/model-service.ts";
 import MeshMover, {useMeshContext} from "@/provider/MeshMover.tsx";
 import {Button} from "antd";
 import UpdateBox from "@/pages/Models/components/BoxForm/UpdateBox.tsx";
@@ -31,10 +31,11 @@ function ModelsPage() {
                        }
                        <OrbitControls/>
                    </Canvas>
-                   <SaveChanges/>
+                   <SaveChanges/><DeleteBox/>
                </div>
                 <div>
                     <UpdateBox/>
+
                 </div>
             </MeshMover>
         </div>
@@ -53,4 +54,11 @@ function SaveChanges() {
 
     return <Button loading={isPending} onClick={() => mutate(changeList)}>Save</Button>
 }
+function DeleteBox(){
+    const {current, } = useMeshContext()
 
+    const {mutate,isPending} = useDeleteModel()
+
+    if(!current) return null
+    return  <Button danger={true} loading={isPending} onClick={()=>mutate(current)}>Delete selected item</Button>
+}

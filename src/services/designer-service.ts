@@ -22,3 +22,33 @@ export function useAddDesignerMutation(onSuccess?:() => void){
 
     })
 }
+
+export function useGetDesignerById(designerId:string){
+    return useQuery({
+        queryFn:()=>DesignerController.getById(designerId),
+        queryKey:[designer_query_key,designerId]
+    })
+}
+
+export function useUpdateDesignerMutation(designerId:string,onSuccess?:() => void){
+    const client = useQueryClient()
+
+    return useMutation({
+        mutationFn:(designer:IDesignerDto)=>DesignerController.updateDesigner(designerId,designer),
+        onSuccess:()=> {
+            onSuccess?.()
+            return client.invalidateQueries({queryKey: [designer_query_key]})
+        }
+    })
+}
+
+export function useDeleteDesigner(){
+    const client = useQueryClient()
+
+    return useMutation({
+        mutationFn:(id:string)=>DesignerController.deleteDesigner(id),
+        onSuccess:()=> {
+            return client.invalidateQueries({queryKey: [designer_query_key]})
+        }
+    })
+}

@@ -24,4 +24,5 @@ export interface DbType {
     addModel: (model: Omit<IModel, 'id'>) => void,
     setPositions:(positions:Record<string, [number,number,number]>)=>void,
     setModels:(models:IModel[]) => void,
+    setDesigners:(designers:IDesigner[]) => void,
 }
