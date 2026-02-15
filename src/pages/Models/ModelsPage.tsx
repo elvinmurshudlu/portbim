@@ -10,7 +10,6 @@ import UpdateBox from "@/pages/Models/components/BoxForm/UpdateBox.tsx";
 import {Instructions} from "@/pages/Models/components/İnstructions.tsx";
 
 function ModelsPage() {
-    // const models = useDb(p=>p.models)
     const [create, setCreate] = useState(false)
 
     const {data: models = []} = useGetModelsQuery()
@@ -23,17 +22,22 @@ function ModelsPage() {
                 <CreateBoxModal open={create} setIsOpen={setCreate}/>
                 <MeshMover>
                     <div className={'col-span-2 h-[60dvh]'}>
-                        <Canvas onDoubleClick={() => setCreate(true)}
-                                className={'  border border-black h-[60dvh] w-full max-w-300 mx-auto'}>
-                            <ambientLight intensity={Math.PI / 2}/>
-                            <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI}/>
-                            <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI}/>
-                            {
-                                models.map(m => {
-                                    return <Box key={m.id} scale={sizeScale[m.size]} meshId={m.id} color={m.color} position={m.position}/>
-                                })
-                            }
-                            <OrbitControls/>
+                        <Canvas
+                            onDoubleClick={() => setCreate(true)}
+                            className="border border-black h-[60dvh] w-full max-w-300 mx-auto"
+                        >
+                            <ambientLight intensity={Math.PI / 2} />
+                            <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
+                            <pointLight position={[ 10,  10,  10]} decay={0} intensity={Math.PI} />
+                            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
+                                <planeGeometry args={[100, 100]} />
+                                <meshStandardMaterial color="#404040" roughness={0.8} />
+                            </mesh>
+                            {models.map(m => {
+                                return <Box key={m.id} scale={sizeScale[m.size]} meshId={m.id} color={m.color} position={m.position} />
+                            })}
+
+                            <OrbitControls />
                         </Canvas>
                         <SaveChanges/><DeleteBox/>
                     </div>

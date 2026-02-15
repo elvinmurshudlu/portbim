@@ -8,7 +8,7 @@ function CreateBoxModal({open,setIsOpen}:{open:boolean,setIsOpen:Dispatch<SetSta
     const {mutate,isPending} = useCreateModelMutation(()=>setIsOpen(false))
 
     return (
-        <Modal footer={[]} open={open} onCancel={()=>setIsOpen(false)}>
+        <Modal footer={[]} destroyOnHidden={true} open={open} onCancel={()=>setIsOpen(false)}>
             <BoxForm onSubmit={mutate} isLoading={isPending} type={'create'}/>
         </Modal>
     );
